@@ -3,6 +3,7 @@
 @using ProjectWatch.Data
 @using ProjectWatch.Models
 @inject ProjectService ProjectService
+@inject IElementService<Element> ElementService
 
 
 
@@ -17,11 +18,11 @@ else
     @foreach (var e in project.Elements)
     {
         <div class="row">
-            @e.Type
-            <input type="button" @onclick="@(() => { Delete(e); })" value="-" />
+            @DrawElement(e)
+            <input type="button" @onclick="@(() => { ElementService.Delete(e,project); })" value="-" />
         </div>
     }
-    <input type="button" @onclick="Click" value="@("+")" />
+    <input type="button" @onclick="@(() => { ElementService.Create(project); })" value="@("+")" />
 }
 
 
@@ -44,5 +45,17 @@ else
     protected void Click()
     {
         project.Elements.Add(new Element { ProjectId = project.ID, ID = Guid.NewGuid() });
+    }
+
+    private ElementView _myElement = null;
+
+    RenderFragment DrawElement(Element e)
+    {
+        return new RenderFragment(builder =>
+        {
+            builder.OpenComponent<ElementView>(0);
+            builder.AddComponentReferenceCapture(1, inst => { _myElement = (ElementView)inst; _myElement.Element = e; });
+            builder.CloseComponent();
+        });
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectWatch.Data;
 using ProjectWatch.Hubs;
+using ProjectWatch.Models;
 
 namespace ProjectWatch
 {
@@ -33,6 +34,8 @@ namespace ProjectWatch
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<ProjectService>();
+            services.AddSingleton<IElementService<Element>, ElementService>();
+
             services.AddSignalR();
 
         }

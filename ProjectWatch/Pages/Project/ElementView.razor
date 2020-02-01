@@ -1,0 +1,10 @@
+﻿@using ProjectWatch.Models
+@using ProjectWatch.Data
+@inject IElementService<Element> ElementService
+
+@ElementService.ServiceName
+@Element.Type
+@code {
+    [Parameter]
+    public Element Element { get; set; }
+}

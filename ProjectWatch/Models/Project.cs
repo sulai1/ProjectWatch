@@ -11,6 +11,6 @@ namespace ProjectWatch.Models
         public String Name { get; set; }
         public String Desc { get; set; }
 
-        public List<Element> Elements { get; set; } = new List<Element>(); 
+        public List<Element> Elements { get; set; } = new List<Element>();
     }
 }
