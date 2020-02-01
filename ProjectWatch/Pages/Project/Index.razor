@@ -1,0 +1,48 @@
+﻿@page "/project/index"
+
+@using ProjectWatch.Data
+@using ProjectWatch.Models
+@inject ProjectService ProjectService
+
+
+
+@if (project == null)
+{
+    <h1>Project</h1>
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@project.Name</h1>
+    @foreach (var e in project.Elements)
+    {
+        <div class="row">
+            @e.Type
+            <input type="button" @onclick="@(() => { Delete(e); })" value="-" />
+        </div>
+    }
+    <input type="button" @onclick="Click" value="@("+")" />
+}
+
+
+
+
+@code {
+    private Project project;
+
+    protected override async Task OnInitializedAsync()
+    {
+        project = await ProjectService.GetProjectAsync();
+    }
+
+    public EventCallback Delete(Element e)
+    {
+        project.Elements.Remove(e);
+        return EventCallback.Empty;
+    }
+
+    protected void Click()
+    {
+        project.Elements.Add(new Element { ProjectId = project.ID, ID = Guid.NewGuid() });
+    }
+}
