@@ -21,21 +21,22 @@ namespace ProjectWatch.Data
             this.serviceScopeFactory = serviceScopeFactory;
         }
 
-        public void Add(E e, Project project)
+        public virtual void Add(E e, Project project)
         {
             project.Elements.Add(e);
         }
 
-        public void Delete(E e, Project project)
+        public virtual void Delete(E element, Project project)
         {
+            var e = project.Elements.Where(e=>e.ID==element.ID).First();
             project.Elements.Remove(e);
         }
 
         public E Create(Project p)
         {
-            var i = CreateInstance();
-            p.Elements.Add(i);
-            return i;
+            var e = CreateInstance();
+            p.Elements.Add(e);
+            return e;
         }
 
         internal abstract E CreateInstance();

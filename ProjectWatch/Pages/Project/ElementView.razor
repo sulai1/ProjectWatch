@@ -2,8 +2,10 @@
 @using ProjectWatch.Data
 @inject IElementService<Element> ElementService
 
-@ElementService.ServiceName
-@Element.Type
+@ElementService.ServiceName | 
+@Element.ID | 
+@Element.Type | 
+@Element.ProjectId
 @code {
     [Parameter]
     public Element Element { get; set; }

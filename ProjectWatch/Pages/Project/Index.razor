@@ -18,7 +18,8 @@ else
     @foreach (var e in project.Elements)
     {
         <div class="row">
-            @DrawElement(e)
+            <ElementView Element="@e">
+            </ElementView>
             <input type="button" @onclick="@(() => { ElementService.Delete(e,project); })" value="-" />
         </div>
     }
@@ -36,25 +37,14 @@ else
         project = await ProjectService.GetProjectAsync();
     }
 
-    public EventCallback Delete(Element e)
-    {
-        project.Elements.Remove(e);
-        return EventCallback.Empty;
-    }
-
-    protected void Click()
-    {
-        project.Elements.Add(new Element { ProjectId = project.ID, ID = Guid.NewGuid() });
-    }
-
-    private ElementView _myElement = null;
 
     RenderFragment DrawElement(Element e)
     {
+        ElementView _myElement = null;
         return new RenderFragment(builder =>
         {
             builder.OpenComponent<ElementView>(0);
-            builder.AddComponentReferenceCapture(1, inst => { _myElement = (ElementView)inst; _myElement.Element = e; });
+            builder.AddComponentReferenceCapture(1, inst => { _myElement = (ElementView)inst; _myElement.Element = e;});
             builder.CloseComponent();
         });
     }
