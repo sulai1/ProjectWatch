@@ -3,7 +3,6 @@
 @using ProjectWatch.Data
 @using ProjectWatch.Models
 @inject ProjectService ProjectService
-@inject IElementService<Element> ElementService
 
 
 
@@ -18,16 +17,12 @@ else
     @foreach (var e in project.Elements)
     {
         <div class="row">
-            <ElementView Element="@e">
-            </ElementView>
-            <input type="button" @onclick="@(() => { ElementService.Delete(e,project); })" value="-" />
+            @(ProjectService.ElementService<IElementService<Element>>().Draw(e))
+            <input type="button" @onclick="@(() => { ProjectService.ElementService<IElementService<Element>>().Delete(e,project); })" value="-" />
         </div>
     }
-    <input type="button" @onclick="@(() => { ElementService.Create(project); })" value="@("+")" />
+    <input type="button" @onclick="@(() => { ProjectService.ElementService<IElementService<Element>>().Create(project); })" value="@("+")" />
 }
-
-
-
 
 @code {
     private Project project;
@@ -37,15 +32,4 @@ else
         project = await ProjectService.GetProjectAsync();
     }
 
-
-    RenderFragment DrawElement(Element e)
-    {
-        ElementView _myElement = null;
-        return new RenderFragment(builder =>
-        {
-            builder.OpenComponent<ElementView>(0);
-            builder.AddComponentReferenceCapture(1, inst => { _myElement = (ElementView)inst; _myElement.Element = e;});
-            builder.CloseComponent();
-        });
-    }
 }

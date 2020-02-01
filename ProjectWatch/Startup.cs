@@ -33,8 +33,8 @@ namespace ProjectWatch
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<IElementService<Element>,ElementService>();
             services.AddSingleton<ProjectService>();
-            services.AddSingleton<IElementService<Element>, ElementService>();
 
             services.AddSignalR();
 

@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using ProjectWatch.Models;
+using ProjectWatch.Pages.Project;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +30,7 @@ namespace ProjectWatch.Data
 
         public virtual void Delete(E element, Project project)
         {
-            var e = project.Elements.Where(e=>e.ID==element.ID).First();
-            project.Elements.Remove(e);
+            project.Elements.Remove(element);
         }
 
         public E Create(Project p)
@@ -40,5 +41,10 @@ namespace ProjectWatch.Data
         }
 
         internal abstract E CreateInstance();
+
+
+
+        public abstract RenderFragment Draw(Element e);
+        
     }
 }

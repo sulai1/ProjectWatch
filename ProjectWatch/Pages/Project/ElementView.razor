@@ -1,12 +1,15 @@
 ﻿@using ProjectWatch.Models
 @using ProjectWatch.Data
-@inject IElementService<Element> ElementService
-
-@ElementService.ServiceName | 
 @Element.ID | 
 @Element.Type | 
 @Element.ProjectId
+<br>
+@ChildContent
+
 @code {
     [Parameter]
     public Element Element { get; set; }
+
+    [Parameter]
+    public Element ChildContent{ get; set; }
 }
